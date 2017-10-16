@@ -9,12 +9,12 @@
     <p>{{ text }}</p>
     <p>{{ computedText }}</p>
 </div>
-
+<script src="js/mvvm.js"></script>
 <script>
     let vm = new MVVM({
         el: '#mvvm-app',
         data: {
-            text: 'I \'m a MVVM app!'
+            text: 'I\'m a MVVM app!'
         },
         computed: {
             computedText () {
@@ -22,6 +22,13 @@
             }
         }
     })
+
+    console.log(vm.text)
+    console.log(vm.data.text)
+
+    vm.text = 'I\'m changed!'
+    console.log(vm.text)
+    console.log(vm.data.text)
 </script>
 </body>
 </html>

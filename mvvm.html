@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+</head>
+<body>
+<div id="mvvm-app">
+    <p>{{ text }}</p>
+    <p>{{ computedText }}</p>
+</div>
+
+<script>
+    let vm = new MVVM({
+        el: '#mvvm-app',
+        data: {
+            text: 'I \'m a MVVM app!'
+        },
+        computed: {
+            computedText () {
+                return 'computed' + this.text
+            }
+        }
+    })
+</script>
+</body>
+</html>

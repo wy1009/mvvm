@@ -5,6 +5,8 @@ function MVVM (options) {
     Object.keys(this.data).forEach((key) => {
         this.proxyData(key)
     })
+
+    this.initComputed()
 }
 
 MVVM.prototype = {
@@ -16,6 +18,14 @@ MVVM.prototype = {
             set: (val) => {
                 this.data[key] = val
             }
+        })
+    },
+    initComputed () {
+        let computed = this.options.computed
+        Object.keys(computed).forEach((key) => {
+            Object.defineProperty(this, key, {
+                get: typeof computed[key] === 'function' ? computed[key] : computed[key].get
+            })
         })
     }
 }

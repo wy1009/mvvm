@@ -7,6 +7,8 @@ function MVVM (options) {
     })
 
     this.initComputed()
+
+    observe(this.data)
 }
 
 MVVM.prototype = {

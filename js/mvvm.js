@@ -2,6 +2,7 @@ function MVVM (options) {
     this.options = options
     this.data = options.data
 
+    // Object.keys()可以只遍历该对象的属性，而for...in则会将对象原型链上的自定义添加属性也遍历出来
     Object.keys(this.data).forEach((key) => {
         this.proxyData(key)
     })
@@ -9,6 +10,8 @@ function MVVM (options) {
     this.initComputed()
 
     observe(this.data)
+
+    new Compile(options.el)
 }
 
 MVVM.prototype = {

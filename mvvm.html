@@ -7,15 +7,21 @@
 <body>
 <div id="mvvm-app">
     <p>{{ text }}</p>
+    <p>{{ textObj.text1 }}</p>
     <p>{{ computedText }}</p>
 </div>
 <script src="js/mvvm.js"></script>
 <script src="js/observer.js"></script>
+<script src="js/compile.js"></script>
 <script>
     let vm = new MVVM({
         el: '#mvvm-app',
         data: {
-            text: 'I\'m a MVVM app!'
+            text: 'I\'m a MVVM app!',
+            textObj: {
+                text1: 'text1 val',
+                text2: 'text2 val'
+            }
         },
         computed: {
             computedText () {

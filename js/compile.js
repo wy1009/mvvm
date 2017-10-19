@@ -1,5 +1,6 @@
-function Compile (el) {
+function Compile (el, vm) {
     this.$el = this.isElementNode(el) ? el : document.querySelector(el)
+    this.vm = vm
     if (this.$el) {
         this.$fragment = this.node2Fragment(this.$el)
         this.init()
@@ -17,12 +18,12 @@ Compile.prototype = {
                 this.compile(node)
             } else if (this.isElementText(node) && reg.test(node.textContent)) {
                 // RegExp.$1为匹配成功后，匹配成功结果的第一个
-                this.compileText(node, RegExp.$1)
+                this.compileText(RegExp.$1)
             }
         })
     },
-    compileText (node, exp) {
-
+    compileText (exp) {
+        compileUtil.text(exp, this.vm)
     },
     node2Fragment (node) {
         let fragment = document.createDocumentFragment()
@@ -35,5 +36,15 @@ Compile.prototype = {
     },
     isElementText (node) {
         return node.nodeType === 3
+    }
+}
+
+// 指令处理集合
+let compileUtil = {
+    text (exp, vm) {
+        this.bind('text', exp, vm)
+    },
+    bind (dir, exp, vm) {
+        new Watcher(exp, vm)
     }
 }

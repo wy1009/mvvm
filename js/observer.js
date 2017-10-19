@@ -8,9 +8,15 @@ function Observer (data) {
 Observer.prototype = {
     defineReactive (key, val) {
         observe(val)
+        let dep = new Dep()
         Object.defineProperty(this.data, key, {
             get: () => {
-                console.log(`get ${key}, it's value is ${val}`)
+                console.log('key', key)
+                console.log('dep.wathcer', Dep.watcher)
+                if (Dep.watcher) {
+                    dep.addWatcher(Dep.watcher)
+                }
+                dep.consoleWatcher()
                 return val
             },
             set: (newVal) => {
@@ -30,4 +36,17 @@ function observe (data) {
     }
 
     new Observer(data)
+}
+
+function Dep () {
+    this.watchers = []
+}
+
+Dep.prototype = {
+    addWatcher (dep) {
+        this.watchers.push(dep)
+    },
+    consoleWatcher () {
+        console.log(this.watchers, 'watcher')
+    }
 }

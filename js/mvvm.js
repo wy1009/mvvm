@@ -11,7 +11,7 @@ function MVVM (options) {
 
     observe(this.data)
 
-    new Compile(options.el)
+    new Compile(options.el, this)
 }
 
 MVVM.prototype = {

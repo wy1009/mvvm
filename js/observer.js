@@ -11,8 +11,6 @@ Observer.prototype = {
         let dep = new Dep()
         Object.defineProperty(this.data, key, {
             get: () => {
-                console.log('key', key)
-                console.log('dep.wathcer', Dep.watcher)
                 if (Dep.watcher) {
                     dep.addWatcher(Dep.watcher)
                 }

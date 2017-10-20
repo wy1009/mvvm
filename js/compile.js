@@ -18,12 +18,12 @@ Compile.prototype = {
                 this.compile(node)
             } else if (this.isElementText(node) && reg.test(node.textContent)) {
                 // RegExp.$1为匹配成功后，匹配成功结果的第一个
-                this.compileText(RegExp.$1)
+                this.compileText(node, RegExp.$1)
             }
         })
     },
-    compileText (exp) {
-        compileUtil.text(exp, this.vm)
+    compileText (node, exp) {
+        compileUtil.text(node, exp, this.vm)
     },
     node2Fragment (node) {
         let fragment = document.createDocumentFragment()
@@ -41,10 +41,20 @@ Compile.prototype = {
 
 // 指令处理集合
 let compileUtil = {
-    text (exp, vm) {
-        this.bind('text', exp, vm)
+    text (node, exp, vm) {
+        this.bind('text', node, exp, vm)
     },
-    bind (dir, exp, vm) {
-        new Watcher(exp, vm)
+    bind (dir, node, exp, vm) {
+        let updateFn = updater[`${dir}Updater`]
+
+        new Watcher(exp, vm, (val) => {
+            updateFn && updateFn(node, val)
+        })
+    }
+}
+
+let updater = {
+    textUpdater (node, val) {
+        node.textContent = typeof val === 'undefined' ? '' : val
     }
 }

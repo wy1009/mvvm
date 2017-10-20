@@ -1,7 +1,4 @@
-let uid = 0
-
-function Watcher (expOrFn, vm) {
-    this.uid = uid ++
+function Watcher (expOrFn, vm, updateFn) {
     this.vm = vm
     this.getter = typeof expOrFn === 'function' ? expOrFn : this.parseGetter(expOrFn)
     this.get()
@@ -26,5 +23,8 @@ Watcher.prototype = {
 
             return obj // 此时返回的是一个最终值，不一定是Object类型
         }
+    },
+    update () {
+        this.updateFn(this.getter(this.vm))
     }
 }

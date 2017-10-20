@@ -4,6 +4,7 @@ function Compile (el, vm) {
     if (this.$el) {
         this.$fragment = this.node2Fragment(this.$el)
         this.init()
+        this.$el.appendChild(this.$fragment)
     }
 }
 
@@ -25,9 +26,12 @@ Compile.prototype = {
     compileText (node, exp) {
         compileUtil.text(node, exp, this.vm)
     },
-    node2Fragment (node) {
-        let fragment = document.createDocumentFragment()
-        fragment.appendChild(node)
+    node2Fragment (el) {
+        let fragment = document.createDocumentFragment();
+
+        [].slice.call(el.childNodes).forEach((node) => {
+            fragment.appendChild(node)
+        })
 
         return fragment
     },

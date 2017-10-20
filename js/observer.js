@@ -14,13 +14,12 @@ Observer.prototype = {
                 if (Dep.watcher) {
                     dep.addWatcher(Dep.watcher)
                 }
-                dep.consoleWatcher()
                 return val
             },
             set: (newVal) => {
                 if (newVal !== val) {
-                    console.log(`set ${key}, old value is ${val}, new value is ${newVal}`)
                     val = newVal
+                    dep.notify()
                     observe(newVal)
                 }
             }
@@ -44,7 +43,9 @@ Dep.prototype = {
     addWatcher (dep) {
         this.watchers.push(dep)
     },
-    consoleWatcher () {
-        console.log(this.watchers, 'watcher')
+    notify () {
+        this.watchers.forEach((watcher) => {
+            watcher.update()
+        })
     }
 }

@@ -7,9 +7,9 @@
 <body>
 <div id="mvvm-app">
     <p>{{text}}</p>
-    <p>{{textObj.text1}}</p>
-    <p>{{textObj.text2}}</p>
-    <!-- <p>{{computedText}}</p> -->
+    <p>{{textObj0.text0}}</p>
+    <p>{{textObj1.text0}}</p>
+    <p>{{computedText}}</p>
 </div>
 <script src="js/mvvm.js"></script>
 <script src="js/observer.js"></script>
@@ -20,9 +20,12 @@
         el: '#mvvm-app',
         data: {
             text: 'I\'m a MVVM app!',
-            textObj: {
-                text1: 'text1 val',
-                text2: 'text2 val'
+            textObj0: {
+                text0: 'text0 val',
+                text1: 'text1 val'
+            },
+            textObj1: {
+                text0: 'textObj1 text0'
             }
         },
         computed: {
@@ -31,6 +34,11 @@
             }
         }
     })
+
+    vm.text = 'I\'m changed!'
+    vm.textObj0.text0 = 'aaa'
+
+    vm.textObj1 = 'textObj1'
 </script>
 </body>
 </html>

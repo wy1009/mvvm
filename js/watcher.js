@@ -3,6 +3,7 @@ function Watcher (expOrFn, vm, updateFn) {
     this.getter = typeof expOrFn === 'function' ? expOrFn : this.parseGetter(expOrFn)
     this.updateFn = updateFn
     this.get()
+    this.update()
 }
 
 Watcher.prototype = {

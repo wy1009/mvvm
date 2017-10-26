@@ -16,10 +16,26 @@ Compile.prototype = {
         let reg = /\{\{(.*)\}\}/;
         [].slice.call(el.childNodes).forEach((node) => {
             if (this.isElementNode(node)) {
+                this.compileElement(node)
                 this.compile(node)
             } else if (this.isElementText(node) && reg.test(node.textContent)) {
                 // RegExp.$1为匹配成功后，匹配成功结果的第一个
                 this.compileText(node, RegExp.$1)
+            }
+        })
+    },
+    compileElement (node) {
+        let attrs = node.attributes;
+        [].slice.call(attrs).forEach((attr) => {
+            let attrName = attr.name,
+                dir = attrName.slice(2),
+                exp = attr.value
+            if (this.isDirective(attrName)) {
+                if (this.isEventDirective(attrName)) {
+
+                } else {
+                    compileUtil[dir](node, exp, this.vm)
+                }
             }
         })
     },
@@ -40,6 +56,12 @@ Compile.prototype = {
     },
     isElementText (node) {
         return node.nodeType === 3
+    },
+    isDirective (attr) {
+        return attr.indexOf('v-') !== -1
+    },
+    isEventDirective (attr) {
+        return attr.indexOf('v-on') !== -1
     }
 }
 
@@ -47,6 +69,9 @@ Compile.prototype = {
 let compileUtil = {
     text (node, exp, vm) {
         this.bind('text', node, exp, vm)
+    },
+    html (node, exp, vm) {
+        this.bind('html', node, exp, vm)
     },
     bind (dir, node, exp, vm) {
         let updateFn = updater[`${dir}Updater`]
@@ -60,5 +85,8 @@ let compileUtil = {
 let updater = {
     textUpdater (node, val) {
         node.textContent = typeof val === 'undefined' ? '' : val
+    },
+    htmlUpdater (node, val) {
+        node.innerHTML = typeof val === 'undefined' ? '' : val
     }
 }

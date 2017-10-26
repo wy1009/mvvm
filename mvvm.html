@@ -10,6 +10,7 @@
     <p>{{textObj0.text0}}</p>
     <p>{{textObj1.text0}}</p>
     <p>{{computedText}}</p>
+    <p v-html="htmlText"></p>
 </div>
 <script src="js/mvvm.js"></script>
 <script src="js/observer.js"></script>
@@ -26,7 +27,8 @@
             },
             textObj1: {
                 text0: 'textObj1 text0'
-            }
+            },
+            htmlText: '<div style="color: red;">htmlText<div>'
         },
         computed: {
             computedText () {

@@ -75,7 +75,7 @@ let compileUtil = {
     },
     model (node, exp, vm) {
         node.addEventListener('input', (e) => {
-            this._setVal(exp, e.data)
+            this._setVal(vm, exp, e.target.value)
         })
     },
     bind (dir, node, exp, vm) {

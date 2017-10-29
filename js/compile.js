@@ -73,11 +73,28 @@ let compileUtil = {
     html (node, exp, vm) {
         this.bind('html', node, exp, vm)
     },
+    model (node, exp, vm) {
+        node.addEventListener('input', (e) => {
+            this._setVal(exp, e.data)
+        })
+    },
     bind (dir, node, exp, vm) {
         let updateFn = updater[`${dir}Updater`]
 
         new Watcher(exp, vm, (val) => {
             updateFn && updateFn(node, val)
+        })
+    },
+    _setVal (vm, exp, val) {
+        let exps = exp.split('.'),
+            obj = vm
+
+        exps.forEach((key, i) => {
+            if (i === exps.length - 1) {
+                obj[key] = val
+            } else {
+                obj = obj[key]
+            }
         })
     }
 }

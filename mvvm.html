@@ -6,7 +6,7 @@
 </head>
 <body>
 <div id="mvvm-app">
-    <p>{{text}}</p>
+    <p v-on:click="testFn">{{text}}</p>
     <p>{{textObj0.text0}}</p>
     <p>{{textObj1.text0}}</p>
     <p>{{computedText}}</p>
@@ -34,6 +34,12 @@
         computed: {
             computedText () {
                 return 'computed' + this.text
+            }
+        },
+        methods: {
+            testFn () {
+                console.log('run test Fn')
+                console.log(this.text)
             }
         }
     })

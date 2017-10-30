@@ -32,7 +32,7 @@ Compile.prototype = {
                 exp = attr.value
             if (this.isDirective(attrName)) {
                 if (this.isEventDirective(attrName)) {
-
+                    compileUtil.event(node, dir, exp, this.vm)
                 } else {
                     compileUtil[dir](node, exp, this.vm)
                 }
@@ -76,6 +76,13 @@ let compileUtil = {
     model (node, exp, vm) {
         node.addEventListener('input', (e) => {
             this._setVal(vm, exp, e.target.value)
+        })
+    },
+    event (node, dir, exp, vm) {
+        let eventName = dir.split(':')[1]
+
+        node.addEventListener(eventName, (e) => {
+            vm.options.methods && vm.options.methods[exp].call(vm, e)
         })
     },
     bind (dir, node, exp, vm) {

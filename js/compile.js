@@ -85,11 +85,14 @@ let compileUtil = {
             vm.options.methods && vm.options.methods[exp].call(vm, e)
         })
     },
+    class (node, exp, vm) {
+        this.bind('class', node, exp, vm)
+    },
     bind (dir, node, exp, vm) {
         let updateFn = updater[`${dir}Updater`]
 
-        new Watcher(exp, vm, (val) => {
-            updateFn && updateFn(node, val)
+        new Watcher(exp, vm, (val, oldVal) => {
+            updateFn && updateFn(node, val, oldVal)
         })
     },
     _setVal (vm, exp, val) {
@@ -112,5 +115,11 @@ let updater = {
     },
     htmlUpdater (node, val) {
         node.innerHTML = typeof val === 'undefined' ? '' : val
+    },
+    classUpdater (node, val, oldVal) {
+        let className = node.className
+        className = className.replace(oldVal, '').replace(/\s$/, '')
+        className = `${className}${className && typeof val === 'string' ? ' ' : ''}${val}`
+        node.className = className
     }
 }

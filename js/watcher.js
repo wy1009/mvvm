@@ -2,15 +2,16 @@ function Watcher (expOrFn, vm, updateFn) {
     this.vm = vm
     this.getter = typeof expOrFn === 'function' ? expOrFn : this.parseGetter(expOrFn)
     this.updateFn = updateFn
-    this.get()
+    this.value = this.get()
     this.update()
 }
 
 Watcher.prototype = {
     get () {
         Dep.watcher = this
-        this.getter(this.vm)
+        let val = this.getter(this.vm)
         Dep.watcher = null
+        return val
     },
     parseGetter (exp) {
         return (obj) => {
@@ -27,6 +28,8 @@ Watcher.prototype = {
         }
     },
     update () {
-        this.updateFn(this.getter(this.vm))
+        let newVal = this.getter(this.vm)
+        this.updateFn(newVal, this.value)
+        this.value = newVal
     }
 }

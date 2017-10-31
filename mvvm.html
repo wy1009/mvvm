@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>MVVM</title>
+    <style>
+        .red {
+            color: red;
+        }
+        .green {
+            color: green;
+        }
+    </style>
 </head>
 <body>
 <div id="mvvm-app">
-    <p v-on:click="testFn">{{ text }}</p>
+    <p v-on:click="toggleColor" v-class="testClass">{{ text }}</p>
     <p>{{ textObj0.text0 }}</p>
     <p>{{ textObj1.text0 }}</p>
     <p>{{ computedText }}</p>
@@ -29,7 +37,8 @@
             textObj1: {
                 text0: 'textObj1 text0'
             },
-            htmlText: '<div style="color: red;">htmlText<div>'
+            htmlText: '<div style="color: red;">htmlText<div>',
+            testClass: 'red'
         },
         computed: {
             computedText () {
@@ -37,9 +46,8 @@
             }
         },
         methods: {
-            testFn () {
-                console.log('run test Fn')
-                console.log(this.text)
+            toggleColor () {
+                this.testClass = this.testClass === 'red' ? 'green' : 'red'
             }
         }
     })

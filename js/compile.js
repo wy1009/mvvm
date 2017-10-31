@@ -13,7 +13,7 @@ Compile.prototype = {
         this.compile(this.$fragment)
     },
     compile (el) {
-        let reg = /\{\{(.*)\}\}/;
+        let reg = /\{\{\s*([\w.]*)\s*\}\}/;
         [].slice.call(el.childNodes).forEach((node) => {
             if (this.isElementNode(node)) {
                 this.compileElement(node)
